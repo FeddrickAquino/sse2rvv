@@ -12,7 +12,9 @@ spike --isa=rv64gcv /data/riscv/riscv-pk/build/build/pk test1 > test1.out 2>&1
 sed -i '1d' test1.out
 
 #compare output
-diff test1.out test1_control.out --brief -y
+diff test1.out test1_control.out --brief -y || exit 1
+
+exit 0
 
 #delete output
 #rm test1.out test1_control.out
