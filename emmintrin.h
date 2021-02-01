@@ -191,15 +191,15 @@ __m128i _mm_cvtsi32_si128(int a){
 }
 
 // Shift a left by imm8 bytes while shifting in zeros, and store the results in dst.
-// TODO
+// TODOc
 __m128i _mm_slli_si128(__m128i a, int imm){
 	int offset = (imm & 0xff);
 	if(offset > 15) offset = 16;
-	offset = offset << 3;
 	
-	//return ;
-	//return vsll_vx_i32m1(a, (int8_t) (op2 & 0xf) << 3);
-	return vmv_v_x_i32m1(0);
+	vsetvl_e8m1(16);
+	__m128i tmp = vreinterpret_v_i8m1_i32m1(vslideup_vx_i8m1(vmv_v_x_i8m1(0), vreinterpret_v_i32m1_i8m1(a), offset));
+	INIT_SSE_VL
+	return tmp;
 }
 
 // Shift a left by imm8 bytes while shifting in zeros, and store the results in dst.
@@ -207,11 +207,11 @@ __m128i _mm_slli_si128(__m128i a, int imm){
 __m128i _mm_srli_si128(__m128i a, int imm){
         int offset = (imm & 0xff);
         if(offset > 15) offset = 16;
-        offset = offset << 3;
-
-        //return ;
-        //return vsll_vx_i32m1(a, (int8_t) (op2 & 0xf) << 3);
-        return vmv_v_x_i32m1(0);
+	
+	vsetvl_e8m1(16);
+        __m128i tmp = vreinterpret_v_i8m1_i32m1(vslidedown_vx_i8m1(vmv_v_x_i8m1(0), vreinterpret_v_i32m1_i8m1(a), offset));
+        INIT_SSE_VL
+	return tmp;
 }
 
 // Store 128-bits of integer data from a into memory. mem_addr must be aligned on a 16-byte boundary or a general-protection exception may be generated.
