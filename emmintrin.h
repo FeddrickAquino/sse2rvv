@@ -66,10 +66,27 @@ __m128i _mm_add_epi32(__m128i a, __m128i b){
         return vadd_vv_i32m1(a, b);
 }
 
+// Add packed signed 16-bit integers in a and b using saturation, and store the results in dst.
+// TESTED
+__m128i _mm_adds_epi16(__m128i a, __m128i b){
+	vsetvl_e16m1(8);
+	__m128i tmp = vreinterpret_v_i16m1_i32m1(vsadd_vv_i16m1(vreinterpret_v_i32m1_i16m1(a), vreinterpret_v_i32m1_i16m1(b)));
+	INIT_SSE_VL
+	return tmp;
+}
+
+// Subtract packed unsigned 16-bit integers in b from packed unsigned 16-bit integers in a using saturation, and store the results in dst.
+//
+__m128i _mm_subs_epu16(__m128i a, __m128i b){
+	vsetvl_e16m1(8);
+	__m128i tmp = vreinterpret_v_u16m1_i32m1(vssubu_vv_u16m1(vreinterpret_v_i32m1_u16m1(a), vreinterpret_v_i32m1_u16m1(b)));
+	INIT_SSE_VL
+	return tmp;
+}
+
 // Broadcast 8-bit integer a to all elements of dst. This intrinsic may generate vpbroadcastb.
 // TESTED
 __m128i _mm_set1_epi8(char w){
-	// TODO: Find better alternative
 	vsetvl_e8m1 (16);
 	__m128i tmp = vreinterpret_v_i8m1_i32m1(vmv_v_x_i8m1(w));
 	INIT_SSE_VL
@@ -79,7 +96,6 @@ __m128i _mm_set1_epi8(char w){
 // Broadcast 16-bit integer a to all all elements of dst. This intrinsic may generate vpbroadcastw.
 // TESTED
 __m128i _mm_set1_epi16(short w){
-	// TODO: Find better alternative
 	vsetvl_e16m1(8);
         __m128i tmp = vreinterpret_v_i16m1_i32m1(vmv_v_x_i16m1(w));
 	INIT_SSE_VL
@@ -112,20 +128,6 @@ __m128i _mm_load_si128(const __m128i *p){
 // TESTED
 __m128i _mm_andnot_si128(__m128i a, __m128i b){
         return vand_vv_i32m1(vnot_v_i32m1(a), b);
-}
-
-// Compare packed signed 8-bit integers in a and b for greater-than, and store the results in dst.
-// TESTED
-__m128i _mm_cmpgt_epi8 (__m128i a, __m128i b){
-	vsetvl_e8m1(16);
-	vint8m1_t vff = vmv_v_x_i8m1(0xff), v0 = vmv_v_x_i8m1(0);
-	
-	// vmask[i] = (a[i] > b[i] ) ? 1 : 0
-	vbool8_t vmask = vmsgt_vv_i8m1_b8(vreinterpret_v_i32m1_i8m1(a), vreinterpret_v_i32m1_i8m1(b));
-	// tmp[i] = vmask[i] ? 0xff : 0
-	vint32m1_t tmp = vreinterpret_v_i8m1_i32m1(vadd_vv_i8m1_m(vmask, v0, vff, v0));
-	INIT_SSE_VL
-	return tmp;
 }
 
 // Compute the bitwise AND of 128 bits (representing integer data) in a and b, and store the result in dst.
@@ -165,6 +167,34 @@ __m128i _mm_cmpgt_epi32(__m128i a, __m128i b){
         return vadd_vv_i32m1_m(vmask, v0, vff, v0);
 }
 
+// Compare packed signed 16-bit integers in a and b for greater-than, and store the results in dst.
+// TESTED
+__m128i _mm_cmpgt_epi16(__m128i a, __m128i b){
+	vsetvl_e16m1(8);
+        vint16m1_t vff = vmv_v_x_i16m1(0xffff), v0 = vmv_v_x_i16m1(0);
+
+        // vmask[i] = (a[i] > b[i] ) ? 1 : 0
+        vbool16_t vmask = vmsgt_vv_i16m1_b16(vreinterpret_v_i32m1_i16m1(a), vreinterpret_v_i32m1_i16m1(b));
+        // tmp[i] = vmask[i] ? 0xffff : 0
+        vint32m1_t tmp = vreinterpret_v_i16m1_i32m1(vadd_vv_i16m1_m(vmask, v0, vff, v0));
+        INIT_SSE_VL
+        return tmp;
+}
+
+// Compare packed signed 8-bit integers in a and b for greater-than, and store the results in dst.
+// TESTED
+__m128i _mm_cmpgt_epi8 (__m128i a, __m128i b){
+        vsetvl_e8m1(16);
+        vint8m1_t vff = vmv_v_x_i8m1(0xff), v0 = vmv_v_x_i8m1(0);
+
+        // vmask[i] = (a[i] > b[i] ) ? 1 : 0
+        vbool8_t vmask = vmsgt_vv_i8m1_b8(vreinterpret_v_i32m1_i8m1(a), vreinterpret_v_i32m1_i8m1(b));
+        // tmp[i] = vmask[i] ? 0xff : 0
+        vint32m1_t tmp = vreinterpret_v_i8m1_i32m1(vadd_vv_i8m1_m(vmask, v0, vff, v0));
+        INIT_SSE_VL
+        return tmp;
+}
+
 // Compare packed signed 8-bit integers in a and b for less-than, and store the results in dst. Note: This intrinsic emits the pcmpgtb instruction with the order of the operands switched.
 // TESTED
 __m128i _mm_cmplt_epi8 (__m128i a, __m128i b){
@@ -191,7 +221,7 @@ __m128i _mm_cvtsi32_si128(int a){
 }
 
 // Shift a left by imm8 bytes while shifting in zeros, and store the results in dst.
-// TODOc
+// TESTED
 __m128i _mm_slli_si128(__m128i a, int imm){
 	int offset = (imm & 0xff);
 	if(offset > 15) offset = 16;
@@ -203,7 +233,7 @@ __m128i _mm_slli_si128(__m128i a, int imm){
 }
 
 // Shift a left by imm8 bytes while shifting in zeros, and store the results in dst.
-// TODO
+// TESTED
 __m128i _mm_srli_si128(__m128i a, int imm){
         int offset = (imm & 0xff);
         if(offset > 15) offset = 16;
@@ -250,4 +280,37 @@ __m128i _mm_sub_epi8(__m128i a, __m128i b)
 // TESTED
 __m128i _mm_loadu_si128(const __m128i *a){
         return vle32_v_i32m1((int32_t *)a);
+}
+
+// Extract a 16-bit integer from a, selected with imm8, and store the result in the lower element of dst.
+// TESTED
+int _mm_extract_epi16(__m128i a, int imm){
+	vsetvl_e16m1(8);
+	vint16m1_t tmp = vrgather_vx_i16m1(vreinterpret_v_i32m1_i16m1(a), (imm & 0x7));
+	INIT_SSE_VL
+	return *((int *)&tmp) & 0xffff;
+}
+
+// Compare packed signed 16-bit integers in a and b, and store packed maximum values in dst.
+// TESTED
+__m128i _mm_max_epi16(__m128i a, __m128i b){
+	vsetvl_e16m1(8);
+	__m128i tmp = vreinterpret_v_i16m1_i32m1(vmax_vv_i16m1(vreinterpret_v_i32m1_i16m1(a), vreinterpret_v_i32m1_i16m1(b)));
+	INIT_SSE_VL
+	return tmp;
+}
+
+// Create mask from the most significant bit of each 8-bit element in a, and store the result in dst.
+// TESTED
+int _mm_movemask_epi8(__m128i _a){
+	vsetvl_e8m8(16);
+
+	// msb_mask[15:0] = 0x80
+	vint8m8_t msb_mask = vmv_v_x_i8m8(0x80);
+	
+	// bool_res[i] = ((_a[i] & msb_mask[i]) == msb_mask[i]) ? 1 : 0
+	vbool1_t bool_res = vmseq_vv_i8m8_b1(vand_vv_i8m8(vle8_v_i8m8((int8_t *)(&_a)), msb_mask), msb_mask);
+	INIT_SSE_VL
+	
+	return *((int *) &bool_res) & 0xffff;
 }
