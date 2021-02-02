@@ -1,0 +1,4 @@
+_mm_sub_epi32
+_mm_min_epu8
+_mm_max_epu8
+--

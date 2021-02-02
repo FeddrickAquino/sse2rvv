@@ -1,3 +1,9 @@
+// Author: Feddrick Aquino
+// email: feddrick38@yahoo.com
+//
+// A header file that convert SSE instruction to its equivalent RISC-V
+// Vector
+
 #ifndef SSE2RVV_H
 #define SSE2RVV_H
 #endif
@@ -276,6 +282,12 @@ __m128i _mm_sub_epi8(__m128i a, __m128i b)
         return tmp;
 }
 
+// Subtract packed 32-bit integers in b from packed 32-bit integers in a, and store the results in dst.
+// TESTED
+__m128i _mm_sub_epi32(__m128i a, __m128i b){
+	return vsub_vv_i32m1(a, b);
+}
+
 // Load 128-bits of integer data from memory into dst. mem_addr does not need to be aligned on any particular boundary.
 // TESTED
 __m128i _mm_loadu_si128(const __m128i *a){
@@ -298,6 +310,24 @@ __m128i _mm_max_epi16(__m128i a, __m128i b){
 	__m128i tmp = vreinterpret_v_i16m1_i32m1(vmax_vv_i16m1(vreinterpret_v_i32m1_i16m1(a), vreinterpret_v_i32m1_i16m1(b)));
 	INIT_SSE_VL
 	return tmp;
+}
+
+// Compare packed unsigned 8-bit integers in a and b, and store packed maximum values in dst.
+// TESTED
+__m128i _mm_max_epu8(__m128i a, __m128i b){
+	vsetvl_e8m1(16);
+        __m128i tmp = vreinterpret_v_u8m1_i32m1(vmaxu_vv_u8m1(vreinterpret_v_i32m1_u8m1(a), vreinterpret_v_i32m1_u8m1(b)));
+        INIT_SSE_VL
+        return tmp;
+}
+
+// Compare packed unsigned 8-bit integers in a and b, and store packed minimum values in dst.
+// TESTED
+__m128i _mm_min_epu8(__m128i a, __m128i b){
+	vsetvl_e8m1(16);
+        __m128i tmp = vreinterpret_v_u8m1_i32m1(vminu_vv_u8m1(vreinterpret_v_i32m1_u8m1(a), vreinterpret_v_i32m1_u8m1(b)));
+        INIT_SSE_VL
+        return tmp;
 }
 
 // Create mask from the most significant bit of each 8-bit element in a, and store the result in dst.
