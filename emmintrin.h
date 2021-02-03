@@ -320,7 +320,7 @@ static inline int _mm_extract_epi16(__m128i a, int imm){
 	vsetvl_e16m1(8);
 	vint16m1_t tmp = vrgather_vx_i16m1(vreinterpret_v_i32m1_i16m1(m128i_to_vint32m1(a)), (imm & 0x7));
 	INIT_SSE_VL
-	return *((int *)&tmp) & 0xffff;
+	return *((uint32_t *)&tmp) & 0xffff;
 }
 
 // Compare packed signed 16-bit integers in a and b, and store packed maximum values in dst.
@@ -362,7 +362,7 @@ static inline int _mm_movemask_epi8(__m128i _a){
 	vbool1_t bool_res = vmseq_vv_i8m8_b1(vand_vv_i8m8(vle8_v_i8m8((int8_t *)(&_a)), msb_mask), msb_mask);
 	INIT_SSE_VL
 
-	return *((int *) &bool_res) & 0xffff;
+	return *((uint32_t *) &bool_res) & 0xffff;
 }
 
 #endif
