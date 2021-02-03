@@ -14,7 +14,7 @@ sed -i '1d' test1.out
 #compare output
 diff test1.out test1_control.out --brief -y || exit 1
 
-exit 0
-
 #delete output
-#rm test1.out test1_control.out
+rm test1.out test1_control.out
+
+exit 0
