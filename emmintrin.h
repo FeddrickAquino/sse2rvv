@@ -6,7 +6,6 @@
 
 #ifndef SSE2RVV_H
 #define SSE2RVV_H
-#endif
 
 #include <riscv_vector.h>
 
@@ -344,3 +343,5 @@ int _mm_movemask_epi8(__m128i _a){
 	
 	return *((int *) &bool_res) & 0xffff;
 }
+
+#endif
