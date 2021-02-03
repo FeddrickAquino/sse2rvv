@@ -8,16 +8,22 @@
 #define SSE2RVV_H
 
 #include <riscv_vector.h>
+#include <stdint.h>
 
 #define INIT_SSE_VL vsetvl_e32m1(4);
 
-typedef vfloat32m1_t __m128;
-typedef vint32m1_t __m128i;
+typedef struct __attribute__((__aligned__(16))) { uint64_t x, y; } __m128i;
+typedef struct __attribute__((__aligned__(16)))  { double x, y; } __m128;
+
+#define m128i_to_vint32m1(a)  ( (vint32m1_t)(a) ) 
+#define m128_to_vfloat32m1(a) ( vfloat32m1_t(a) ) 
+#define vint32m1_to_m128i(a)  ( (__m128i)(a) ) 
+#define vfloat32m1_to_m128(a)  ( (__m128)(a) ) 
 
 // Copy the lower single-precision (32-bit) floating-point element of a to dst.
 // TESTED
 float _mm_cvtss_f32(__m128 a){
-	return (float)vfmv_f_s_f32m1_f32(a);	
+	return (float)vfmv_f_s_f32m1_f32(m128_to_vfloat32m1(a));	
 }
 
 // Return vector of type __m128i with all elements set to zero.
