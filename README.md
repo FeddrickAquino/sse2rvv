@@ -18,7 +18,7 @@ To test it out, we would need to have:
 ### RISC-V GNU toolchain with RVV intrinsic
 
 [riscv-gnu-toolchain](https://github.com/riscv/riscv-gnu-toolchain/tree/rvv-intrinsic) with rvv intrinsics enabled. 
-Go to the **Installation (Linux)** section, and follow the build step there, with addition of the flag `--with-arch=rv64gcv --with-abi=ilp64d`.
+Go to the **Installation (Linux)** section, and follow the build step there, with addition of the flag `--with-arch=rv64gcv --with-abi=lp64d`.
 
 ### RISC-V ISA simulator
 
