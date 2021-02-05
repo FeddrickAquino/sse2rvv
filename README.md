@@ -42,8 +42,7 @@ to the right path, run `./test_all.sh` in the `tests` directory, and see all the
 
 - Locate `#include <emmintrin.h>` in the code and replace them with `#include "sse2rvv.h"`.
 
-- Put `INIT_SSE_VL` somewhere before the first Intel's intrinsic code. This is an important step, and if missed, would result in all the value extracted 
-from a vector register being 0.
+- Put `INIT_SSE_VL` somewhere before the first Intel's intrinsic code. This is an important step, and if missed, would result in undeterministic behavior.
 
 ## Reference 
 
