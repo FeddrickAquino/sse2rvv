@@ -84,6 +84,6 @@ cd samtools-1.11
 ./configure CC="riscv64-unknown-linux-gnu-gcc -static" CFLAGS="-march=rv64gcv -mabi=lp64d"  --host=riscv --without-curses LIBS="-L $WORK_DIR/zlib/zlib-1.2.11/" CPPFLAGS=" -I $WORK_DIR/zlib/zlib-1.2.11/" --disable-bz2 --disable-lzma
 make -j8
 
-#runnign samtools
+#running samtools
 cd $WORK_DIR/test_data
 spike -p4 -m8096 --isa=rv64gcv `which pk` ../samtools-1.11/samtools sort reads.sam > reads.bam 
