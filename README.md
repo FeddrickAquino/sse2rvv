@@ -36,6 +36,8 @@ Inside the directory `tests`, there are directories that contains a unit test fo
 your machine, you would need to modify the `tests/test.sh` file, particularly the path to your RISC-V GNU toolchain programs, Spike, and riscv-pk. After you modified this
 to the right path, run `./test_all.sh` in the `tests` directory, and see all the unit tests run and (hopefully) pass. 
 
+To get all the 3 programs above, we have provided a script called `riscv_minimap2.sh`, which will download and compile the RVV Toolchain, Spike, pk, minimap2 and samtools. In addition, it will also run minimap2 and samtools with test data called
+
 ## Usage
 
 - Put the file `sse2rvv.h` in to your source code directory.
