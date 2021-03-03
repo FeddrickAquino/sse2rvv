@@ -70,7 +70,7 @@ make
 cd $WORK_DIR
 git clone https://github.com/FeddrickAquino/minimap2 --recursive
 cd minimap2
-LIBS="-L$WORK_DIR/zlib/zlib-1.2.11/" INCLUDES="-I$WORK_DIR/zlib/zlib-1.2.11/"  make -f Makefile.simde
+LIBS="-L$WORK_DIR/zlib/zlib-1.2.11/" INCLUDES="-I$WORK_DIR/zlib/zlib-1.2.11/"  make riscv_v=1
 
 #running minimap2
 cd $WORK_DIR/test_data
