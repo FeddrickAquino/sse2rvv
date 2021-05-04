@@ -44,7 +44,7 @@ cd build
 ../configure --prefix=$WORK_DIR/pk --host=riscv64-unknown-linux-gnu --with-arch=rv64gcv --with-abi=lp64d
 make -j64 
 make install
-PATH=$PATH:$WORK_DIR/pk/riscv64-unknown-linux-gnu/bin/
+PATH=$PATH:$WORK_DIR/pk/riscv64-unknown-linux-gnu/bin
 export PATH
 
 #download test data set
