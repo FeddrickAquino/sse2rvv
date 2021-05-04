@@ -5,8 +5,6 @@
 #include "../../emmintrin.h"
 
 int main(void){
-	INIT_SSE_VL
-	
 	int array_init1[4] = {0, 1, 0xff, -1};
 	
 	__m128i vi = _mm_cvtsi32_si128(INT_MAX);

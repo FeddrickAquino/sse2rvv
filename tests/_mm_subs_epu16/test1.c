@@ -7,7 +7,6 @@ int main(void){
 	int array_init1[4] = {0x7fff8000, 0xffff, 0xffff0001, 0x00010001};
         int array_init2[4] = {0x0002ffff, 0xffff, 0x0002000f, 0x7fff7fff};
 
-	INIT_SSE_VL
 	__m128i v1 = _mm_loadu_si128((__m128i*)array_init1);
 	__m128i v2 = _mm_loadu_si128((__m128i*)array_init2);	
 

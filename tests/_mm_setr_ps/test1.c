@@ -3,7 +3,6 @@
 #include "../../emmintrin.h"
 
 int main(void){
-	INIT_SSE_VL
 	__m128 fv = _mm_setr_ps(9.8, 7.6, 5.4, 3.2);
 	float* ptr = &fv;
 	for(int i = 0; i < 4; i++){

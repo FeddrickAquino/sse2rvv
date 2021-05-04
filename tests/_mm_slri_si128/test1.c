@@ -5,7 +5,6 @@
 void print_vi(__m128i vi);
 
 int main(void){
-	INIT_SSE_VL
 	int array1[4] = {0x12345678, 0x9ABCDEF0, 0x12003400, 0x56007800};
 	__m128i vi = _mm_load_si128((__m128i *)(array1));
 

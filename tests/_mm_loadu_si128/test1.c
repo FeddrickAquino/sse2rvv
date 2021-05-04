@@ -7,7 +7,6 @@
 int main(void){
 	unsigned int array_init1[4] = {UINT_MAX, UINT_MAX, UINT_MAX, 0};
 
-	INIT_SSE_VL
 	__m128i v1 = _mm_loadu_si128((__m128i*)array_init1);
 	
 	unsigned int *ptr = &v1;

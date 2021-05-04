@@ -3,7 +3,6 @@
 #include "../../emmintrin.h"
 
 int main(void){
-	INIT_SSE_VL
 	short array1[8] = {0xff00, 0xff00, 0xf00f, 0xf00f, 0, 0x1, 0, 0xf};
 	short array2[8] = {0, 0xf01, 0xff0, 0x0ff0, 0, 0x1, 0, 0x1};
 	__m128i v1 = _mm_load_si128((__m128i *)array1), v2 = _mm_load_si128((__m128i *)array2);

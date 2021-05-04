@@ -3,7 +3,6 @@
 #include "../../emmintrin.h"
 
 int main(void){
-	INIT_SSE_VL
 	int array1[4] = {0x7fffffff, 0xffff0000, 0x00018000, 0x1};
 	int array2[4] = {0xffff0001, 0x0000ffff, 0x000fffff, 0x1};
 
