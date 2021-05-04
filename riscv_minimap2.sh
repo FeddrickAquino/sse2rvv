@@ -70,11 +70,13 @@ make
 cd $WORK_DIR
 git clone https://github.com/FeddrickAquino/minimap2 --recursive
 cd minimap2
-LIBS="-L$WORK_DIR/zlib/zlib-1.2.11/" INCLUDES="-I$WORK_DIR/zlib/zlib-1.2.11/"  make riscv_v=1
+WORK_DIR=$WORK_DIR make riscv_v=1
+PATH=$PATH:$WORK_DIR/minimap2
+export PATH
 
 #running minimap2
 cd $WORK_DIR/test_data
-spike -p4 -m8096 --isa=rv64gcv `which pk` ../minimap2/minimap2 chr22.fa -d chr22.idx
+spike -p4 -m8096 --isa=rv64gcv `which pk` `which minimap2` chr22.fa -d chr22.idx
 
 #samtools
 cd $WORK_DIR
