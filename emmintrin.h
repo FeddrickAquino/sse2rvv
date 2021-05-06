@@ -9,6 +9,7 @@
 
 #include <riscv_vector.h>
 #include <stdint.h>
+#include <string.h>
 
 typedef struct __attribute__((__aligned__(16))) { uint64_t x, y; } __m128i;
 typedef struct __attribute__((__aligned__(16)))  { double x, y; } __m128;
@@ -248,6 +249,7 @@ static inline __m128i _mm_srli_si128(__m128i a, int imm){
 	return vint32m1_to_m128i(tmp);
 }
 
+// TODO: Reduce clock cycle counts
 // Store 128-bits of integer data from a into memory. mem_addr must be aligned on a 16-byte boundary or a general-protection exception may be generated.
 // TESTED
 static inline void _mm_store_si128(__m128i *p, __m128i a){
@@ -255,9 +257,11 @@ static inline void _mm_store_si128(__m128i *p, __m128i a){
 }
 
 // Store 128-bits of integer data from a into memory. mem_addr does not need to be aligned on any particular boundary.
-// TESTED
+// TODO: Reduce clock cycle counts
+// 	 The intrinsic used in the aligned version (i.e. _mm_store_si128) does not work
+//       with unaligned addresses.
 static inline void _mm_storeu_si128(__m128i *p, __m128i a){
-	vse32_v_i32m1((int32_t *)p, m128i_to_vint32m1(a), 4);
+	memcpy((void *)p, (void *)&a, 16);
 }
 
 // Add packed 8-bit integers in a and b, and store the results in dst.
@@ -287,12 +291,9 @@ static inline __m128i _mm_sub_epi32(__m128i a, __m128i b){
 // 	 The intrinsic used in the aligned version (i.e. _mm_load_si128) does not work
 //       with unaligned addresses.
 static inline __m128i _mm_loadu_si128(const __m128i *a){
-       	uint8_t __attribute__((aligned(16))) data[16];
-	uint8_t *ptr = (uint8_t *)a;
-	for(int i = 0; i < 16; i++){
-		data[i] = ptr[i];
-	}
-	return vint32m1_to_m128i(vle32_v_i32m1((int32_t *)data, 4));
+	__m128i res = _mm_set1_epi32(0);
+	memcpy((void *)&res, (void *)a, 16);
+	return res;
 }
 
 // Extract a 16-bit integer from a, selected with imm8, and store the result in the lower element of dst.
