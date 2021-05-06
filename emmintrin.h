@@ -283,9 +283,16 @@ static inline __m128i _mm_sub_epi32(__m128i a, __m128i b){
 }
 
 // Load 128-bits of integer data from memory into dst. mem_addr does not need to be aligned on any particular boundary.
-// TESTED
+// TODO: Reduce clock cycle counts
+// 	 The intrinsic used in the aligned version (i.e. _mm_load_si128) does not work
+//       with unaligned addresses.
 static inline __m128i _mm_loadu_si128(const __m128i *a){
-        return vint32m1_to_m128i(vle32_v_i32m1((int32_t *)a, 4));
+       	uint8_t __attribute__((aligned(16))) data[16];
+	uint8_t *ptr = (uint8_t *)a;
+	for(int i = 0; i < 16; i++){
+		data[i] = ptr[i];
+	}
+	return vint32m1_to_m128i(vle32_v_i32m1((int32_t *)data, 4));
 }
 
 // Extract a 16-bit integer from a, selected with imm8, and store the result in the lower element of dst.
