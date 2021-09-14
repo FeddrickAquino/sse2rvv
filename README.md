@@ -11,6 +11,13 @@ The header file `sse2rvv.h` in this repository currently contains several of the
 Due to the nature of RISC-V Vector registers having different `VLEN` depending on the architecture, for the purpose of this repository, 
 we assume the system/simulator that uses this header file have `VLEN` of 128bits
 
+## Result
+
+From this repository, I have demonstrated that:
+
+- `sse2rvv` can be used on application that requires Intel's intrinsic to be run on RISC-V platform that supports vector instruction.
+- Running minimap2 on RISC-V platform that utilizes `sse2rvv` reduces the instruction count by 2.67 in comparison to traditional vector to loop conversion approach.
+
 ## Get Started
 
 To test it out, we would need to have:
