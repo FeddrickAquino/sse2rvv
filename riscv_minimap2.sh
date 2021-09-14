@@ -32,7 +32,7 @@ cd build
 ../configure --prefix=$RISCV
 make -j64 
 make install
-PATH=$PATH:$RISCV/build
+PATH=$PATH:$RISCV/bin
 export PATH
 
 #compiling pk
