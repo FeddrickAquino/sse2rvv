@@ -70,7 +70,7 @@ make
 cd $WORK_DIR
 git clone https://github.com/FeddrickAquino/minimap2 --recursive
 cd minimap2
-WORK_DIR=$WORK_DIR make riscv_v=1
+make riscv_v=1
 PATH=$PATH:$WORK_DIR/minimap2
 export PATH
 
