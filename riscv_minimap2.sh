@@ -77,7 +77,10 @@ export PATH
 #running minimap2
 cd $WORK_DIR/test_data
 spike -p4 -m8096 --isa=rv64gcv `which pk` `which minimap2` chr22.fa -d chr22.idx
+head -n10 reads.fastq > reads_10.fastq
+spike--isa=rv64gcv -p4 -m8096 `which pk` `which minimap2` -x map-ont -a -t 1 chr22.idx reads_10.fastq > reads_10.sam 
 
+:'
 #samtools
 cd $WORK_DIR
 wget https://github.com/samtools/samtools/releases/download/1.11/samtools-1.11.tar.bz2
@@ -89,3 +92,4 @@ make -j8
 #running samtools
 cd $WORK_DIR/test_data
 spike -p4 -m8096 --isa=rv64gcv `which pk` ../samtools-1.11/samtools sort reads.sam > reads.bam 
+'
