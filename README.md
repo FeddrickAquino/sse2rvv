@@ -55,6 +55,6 @@ To get all the 3 programs above, we have provided a script called `riscv_minimap
 ## Reference 
 
 - [rvv-intrinsic-doc](https://github.com/riscv/rvv-intrinsic-doc)
-- [RISC-V Vector specification](https://riscv.github.io/documents/riscv-v-spec/)
+- [RISC-V Vector specification](https://github.com/riscv/riscv-v-spec)
 - [sse2neon](https://github.com/DLTcollab/sse2neon)
 - [Intel intrinsics guide](https://software.intel.com/sites/landingpage/IntrinsicsGuide/)
