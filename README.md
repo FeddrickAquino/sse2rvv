@@ -34,8 +34,7 @@ Go to the **Installation (Linux)** section, and follow the build step there, wit
 ### RISC-V Proxy Kernel (pk)
 
 We need a Proxy Kernel since I'm assuming this repository will be used for program that will be run in an Operating System in particular Linux distributions. Follow the 
-**Build Steps** there, and for the configure part, you would use the flag `--host=riscv64-unknown-linux-gnu --with-arch=rv64gcv` (**TODO**: Add instruction 
-on setting the mabi). Remember to put the toolchain program that you obtained in **RISC-V GNU toolchain with RVV intrinsic** into your PATH.
+**Build Steps** there, and for the configure part, you would use the flag `--host=riscv64-unknown-linux-gnu --with-arch=rv64gcv`. Remember to put the toolchain program that you obtained in **RISC-V GNU toolchain with RVV intrinsic** into your PATH.
 
 ### How to run
 
@@ -43,7 +42,7 @@ Inside the directory `tests`, there are directories that contains a unit test fo
 your machine, you would need to modify the `tests/test.sh` file, particularly the path to your RISC-V GNU toolchain programs, Spike, and riscv-pk. After you modified this
 to the right path, run `./test_all.sh` in the `tests` directory, and see all the unit tests run and (hopefully) pass. 
 
-To get all the 3 programs above, we have provided a script called `riscv_minimap2.sh`, which will download and compile the RVV Toolchain, Spike, pk, minimap2 and samtools. In addition, it will also run minimap2 and samtools with test data called
+To get all the 3 programs above, we have provided a script called `riscv_minimap2.sh`, which will download and compile the RVV Toolchain, Spike, pk, and minimap2. In addition, it will also run minimap2 with a test data.
 
 ## Usage
 
