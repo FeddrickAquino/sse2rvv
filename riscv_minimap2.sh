@@ -79,17 +79,3 @@ cd $WORK_DIR/test_data
 spike --isa=rv64gcv -p4 -m8096 `which pk` `which minimap2` -t 1 chr22.fa -d chr22.idx
 head -n10 reads.fastq > reads_10.fastq
 spike --isa=rv64gcv -p4 -m8096 `which pk` `which minimap2` -x map-ont -a -t 1 chr22.idx reads_10.fastq > reads_10.sam 
-
-:'
-#samtools
-cd $WORK_DIR
-wget https://github.com/samtools/samtools/releases/download/1.11/samtools-1.11.tar.bz2
-tar xf samtools-1.11.tar.bz2
-cd samtools-1.11
-./configure CC="riscv64-unknown-linux-gnu-gcc -static" CFLAGS="-march=rv64gcv -mabi=lp64d"  --host=riscv --without-curses LIBS="-L $WORK_DIR/zlib/zlib-1.2.11/" CPPFLAGS=" -I $WORK_DIR/zlib/zlib-1.2.11/" --disable-bz2 --disable-lzma
-make -j8
-
-#running samtools
-cd $WORK_DIR/test_data
-spike -p4 -m8096 --isa=rv64gcv `which pk` ../samtools-1.11/samtools sort reads.sam > reads.bam 
-'
