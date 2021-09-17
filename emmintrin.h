@@ -35,37 +35,31 @@ static inline __m128 vfloat32m1_to_m128(vfloat32m1_t a){
 }
 
 // Copy the lower single-precision (32-bit) floating-point element of a to dst.
-// TESTED
 static inline float _mm_cvtss_f32(__m128 a){
 	return (float)vfmv_f_s_f32m1_f32(m128_to_vfloat32m1(a));
 }
 
 // Return vector of type __m128i with all elements set to zero.
-// TESTED
 static inline __m128i _mm_setzero_si128(){
 	return vint32m1_to_m128i(vmv_v_x_i32m1(0, 4));
 }
 
 // Return vector of type __m128 with all elements set to zero.
-// TESTED
 static inline __m128 _mm_setzero_ps(void){
 	return vfloat32m1_to_m128(vfmv_v_f_f32m1(0, 4));
 }
 
 // Broadcast single-precision (32-bit) floating-point value a to all elements of dst.
-// TESTED
 static inline __m128 _mm_set1_ps(float _w){
 	return vfloat32m1_to_m128(vfmv_v_f_f32m1(_w, 4));
 }
 
 // Broadcast single-precision (32-bit) floating-point value a to all elements of dst.
-// TESTED
 static inline __m128 _mm_set_ps1(float _w){
 	return vfloat32m1_to_m128(vfmv_v_f_f32m1(_w, 4));
 }
 
 // Set packed single-precision (32-bit) floating-point elements in dst with the supplied values.
-// TESTED
 static inline __m128 _mm_set_ps(float w, float z, float y, float x){
 	float __attribute__((aligned(16))) data[4] = { x, y, z, w };
 	size_t new_vl;
@@ -73,7 +67,6 @@ static inline __m128 _mm_set_ps(float w, float z, float y, float x){
 }
 
 // Set packed single-precision (32-bit) floating-point elements in dst with the supplied values in reverse order.
-// TESTED
 static inline __m128 _mm_setr_ps(float w, float z , float y , float x ){
 	float __attribute__((aligned(16))) data[4] = { w, z, y, x };
 	size_t new_vl;
@@ -81,54 +74,46 @@ static inline __m128 _mm_setr_ps(float w, float z , float y , float x ){
 }
 
 // Set packed 32-bit integers in dst with the supplied values in reverse order.
-// TESTED
 static inline __m128i _mm_setr_epi32(int i3, int i2, int i1, int i0){
 	int __attribute__((aligned(16))) data[4] = { i3, i2, i1, i0 };
         return vint32m1_to_m128i(vle32_v_i32m1((int32_t *)data, 4));
 }
 
 // Add packed 32-bit integers in a and b, and store the results in dst.
-// TESTED
 static inline __m128i _mm_add_epi32(__m128i a, __m128i b){
         return vint32m1_to_m128i(vadd_vv_i32m1(m128i_to_vint32m1(a), m128i_to_vint32m1(b), 4));
 }
 
 // Add packed signed 16-bit integers in a and b using saturation, and store the results in dst.
-// TESTED
 static inline __m128i _mm_adds_epi16(__m128i a, __m128i b){
 	vint32m1_t tmp = vreinterpret_v_i16m1_i32m1(vsadd_vv_i16m1(vreinterpret_v_i32m1_i16m1(m128i_to_vint32m1(a)), vreinterpret_v_i32m1_i16m1(m128i_to_vint32m1(b)), 8));
 	return vint32m1_to_m128i(tmp);
 }
 
 // Subtract packed unsigned 16-bit integers in b from packed unsigned 16-bit integers in a using saturation, and store the results in dst.
-//
 static inline __m128i _mm_subs_epu16(__m128i a, __m128i b){
 	vint32m1_t tmp = vreinterpret_v_u16m1_i32m1(vssubu_vv_u16m1(vreinterpret_v_i32m1_u16m1(m128i_to_vint32m1(a)), vreinterpret_v_i32m1_u16m1(m128i_to_vint32m1(b)), 8));
 	return vint32m1_to_m128i(tmp);
 }
 
 // Broadcast 8-bit integer a to all elements of dst. This intrinsic may generate vpbroadcastb.
-// TESTED
 static inline __m128i _mm_set1_epi8(char w){
 	vint32m1_t tmp = vreinterpret_v_i8m1_i32m1(vmv_v_x_i8m1(w, 16));
 	return vint32m1_to_m128i(tmp);
 }
 
 // Broadcast 16-bit integer a to all all elements of dst. This intrinsic may generate vpbroadcastw.
-// TESTED
 static inline __m128i _mm_set1_epi16(short w){
         vint32m1_t tmp = vreinterpret_v_i16m1_i32m1(vmv_v_x_i16m1(w, 8));
         return vint32m1_to_m128i(tmp);
 }
 
 // Broadcast 32-bit integer a to all elements of dst. This intrinsic may generate vpbroadcastd.
-// TESTED
 static inline __m128i _mm_set1_epi32(int _i){
 	return vint32m1_to_m128i(vmv_v_x_i32m1(_i, 4));
 }
 
 // Set packed 16-bit integers in dst with the supplied values.
-// TESTED
 static inline __m128i _mm_set_epi16(short i7, short i6, short i5, short i4, short i3, short i2, short i1, short i0){
 	int16_t __attribute__((aligned(16))) data[8] = { i0, i1, i2, i3, i4, i5, i6, i7 };
 	__m128i tmp = vint32m1_to_m128i(vreinterpret_v_i16m1_i32m1(vle16_v_i16m1(data, 8)));
@@ -136,31 +121,26 @@ static inline __m128i _mm_set_epi16(short i7, short i6, short i5, short i4, shor
 }
 
 // Load 128-bits of integer data from memory into dst. mem_addr must be aligned on a 16-byte boundary or a general-protection exception may be generated.
-// TESTED
 static inline __m128i _mm_load_si128(const __m128i *p){
         return vint32m1_to_m128i(vle32_v_i32m1((int32_t *)p, 4));
 }
 
 // Compute the bitwise NOT of 128 bits (representing integer data) in a and then AND with b, and store the result in dst.
-// TESTED
 static inline __m128i _mm_andnot_si128(__m128i a, __m128i b){
         return vint32m1_to_m128i(vand_vv_i32m1(vnot_v_i32m1(m128i_to_vint32m1(a), 4), m128i_to_vint32m1(b), 4));
 }
 
 // Compute the bitwise AND of 128 bits (representing integer data) in a and b, and store the result in dst.
-// TESTED
 static inline __m128i _mm_and_si128(__m128i a, __m128i b){
 	 return vint32m1_to_m128i(vand_vv_i32m1(m128i_to_vint32m1(a), m128i_to_vint32m1(b), 4));
 }
 
 // Compute the bitwise OR of 128 bits (representing integer data) in a and b, and store the result in dst.
-// TESTED
 static inline __m128i _mm_or_si128(__m128i a, __m128i b){
 	return vint32m1_to_m128i(vor_vv_i32m1(m128i_to_vint32m1(a), m128i_to_vint32m1(b), 4));
 }
 
 // Compare packed 8-bit integers in a and b for equality, and store the results in dst.
-// TESTED
 static inline __m128i _mm_cmpeq_epi8(__m128i a, __m128i b){
         vint8m1_t vff = vmv_v_x_i8m1(0xff, 16), v0 = vmv_v_x_i8m1(0, 16);
 
@@ -172,7 +152,6 @@ static inline __m128i _mm_cmpeq_epi8(__m128i a, __m128i b){
 }
 
 // Compare packed signed 32-bit integers in a and b for greater-than, and store the results in dst.
-// TESTED
 static inline __m128i _mm_cmpgt_epi32(__m128i a, __m128i b){
         vint32m1_t vff = vmv_v_x_i32m1(0xffffffff, 4), v0 = vmv_v_x_i32m1(0, 4);
 
@@ -183,7 +162,6 @@ static inline __m128i _mm_cmpgt_epi32(__m128i a, __m128i b){
 }
 
 // Compare packed signed 16-bit integers in a and b for greater-than, and store the results in dst.
-// TESTED
 static inline __m128i _mm_cmpgt_epi16(__m128i a, __m128i b){
         vint16m1_t vff = vmv_v_x_i16m1(0xffff, 8), v0 = vmv_v_x_i16m1(0, 8);
 
@@ -194,8 +172,7 @@ static inline __m128i _mm_cmpgt_epi16(__m128i a, __m128i b){
         return vint32m1_to_m128i(tmp);
 }
 
-// Compare packed signed 8-bit integers in a and b for greater-than, and store the results in dst.
-// TESTED
+// Compare packed signed 8-bit integers in a and b for greater-than, and store the results in dst
 static inline __m128i _mm_cmpgt_epi8 (__m128i a, __m128i b){
         vint8m1_t vff = vmv_v_x_i8m1(0xff, 16), v0 = vmv_v_x_i8m1(0, 16);
 
@@ -207,7 +184,6 @@ static inline __m128i _mm_cmpgt_epi8 (__m128i a, __m128i b){
 }
 
 // Compare packed signed 8-bit integers in a and b for less-than, and store the results in dst. Note: This intrinsic emits the pcmpgtb instruction with the order of the operands switched.
-// TESTED
 static inline __m128i _mm_cmplt_epi8 (__m128i a, __m128i b){
         vint8m1_t vff = vmv_v_x_i8m1(0xff, 16), v0 = vmv_v_x_i8m1(0, 16);
 
@@ -219,7 +195,6 @@ static inline __m128i _mm_cmplt_epi8 (__m128i a, __m128i b){
 }
 
 // Copy 32-bit integer a to the lower elements of dst, and zero the upper elements of dst.
-// TESTED
 static inline __m128i _mm_cvtsi32_si128(int a){
 	int __attribute__((aligned(16))) arr[4] = {1, 0, 0, 0};
 	vint32m1_t v0 = vmv_v_x_i32m1(0, 4);
@@ -230,7 +205,6 @@ static inline __m128i _mm_cvtsi32_si128(int a){
 }
 
 // Shift a left by imm8 bytes while shifting in zeros, and store the results in dst.
-// TESTED
 static inline __m128i _mm_slli_si128(__m128i a, int imm){
 	int offset = (imm & 0xff);
 	if(offset > 15) offset = 16;
@@ -240,7 +214,6 @@ static inline __m128i _mm_slli_si128(__m128i a, int imm){
 }
 
 // Shift a left by imm8 bytes while shifting in zeros, and store the results in dst.
-// TESTED
 static inline __m128i _mm_srli_si128(__m128i a, int imm){
         int offset = (imm & 0xff);
         if(offset > 15) offset = 16;
@@ -249,23 +222,17 @@ static inline __m128i _mm_srli_si128(__m128i a, int imm){
 	return vint32m1_to_m128i(tmp);
 }
 
-// TODO: Reduce clock cycle counts
 // Store 128-bits of integer data from a into memory. mem_addr must be aligned on a 16-byte boundary or a general-protection exception may be generated.
-// TESTED
 static inline void _mm_store_si128(__m128i *p, __m128i a){
 	vse32_v_i32m1((int32_t *)p, m128i_to_vint32m1(a), 4);
 }
 
 // Store 128-bits of integer data from a into memory. mem_addr does not need to be aligned on any particular boundary.
-// TODO: Reduce clock cycle counts
-// 	 The intrinsic used in the aligned version (i.e. _mm_store_si128) does not work
-//       with unaligned addresses.
 static inline void _mm_storeu_si128(__m128i *p, __m128i a){
 	memcpy((void *)p, (void *)&a, 16);
 }
 
 // Add packed 8-bit integers in a and b, and store the results in dst.
-// TESTED
 static inline __m128i _mm_add_epi8(__m128i a, __m128i b)
 {
 	vint32m1_t tmp = vreinterpret_v_i8m1_i32m1(vadd_vv_i8m1(vreinterpret_v_i32m1_i8m1(m128i_to_vint32m1(a)), vreinterpret_v_i32m1_i8m1(m128i_to_vint32m1(b)), 16));
@@ -273,7 +240,6 @@ static inline __m128i _mm_add_epi8(__m128i a, __m128i b)
 }
 
 // Subtract packed 8-bit integers in b from packed 8-bit integers in a, and store the results in dst.
-// TESTED
 static inline __m128i _mm_sub_epi8(__m128i a, __m128i b)
 {
         vint32m1_t tmp = vreinterpret_v_i8m1_i32m1(vsub_vv_i8m1(vreinterpret_v_i32m1_i8m1(m128i_to_vint32m1(a)), vreinterpret_v_i32m1_i8m1(m128i_to_vint32m1(b)), 16));;
@@ -281,15 +247,11 @@ static inline __m128i _mm_sub_epi8(__m128i a, __m128i b)
 }
 
 // Subtract packed 32-bit integers in b from packed 32-bit integers in a, and store the results in dst.
-// TESTED
 static inline __m128i _mm_sub_epi32(__m128i a, __m128i b){
 	return vint32m1_to_m128i(vsub_vv_i32m1(m128i_to_vint32m1(a), m128i_to_vint32m1(b), 4));
 }
 
 // Load 128-bits of integer data from memory into dst. mem_addr does not need to be aligned on any particular boundary.
-// TODO: Reduce clock cycle counts
-// 	 The intrinsic used in the aligned version (i.e. _mm_load_si128) does not work
-//       with unaligned addresses.
 static inline __m128i _mm_loadu_si128(const __m128i *a){
 	__m128i res = _mm_set1_epi32(0);
 	memcpy((void *)&res, (void *)a, 16);
@@ -297,35 +259,30 @@ static inline __m128i _mm_loadu_si128(const __m128i *a){
 }
 
 // Extract a 16-bit integer from a, selected with imm8, and store the result in the lower element of dst.
-// TESTED
 static inline int _mm_extract_epi16(__m128i a, int imm){
 	vint16m1_t tmp = vrgather_vx_i16m1(vreinterpret_v_i32m1_i16m1(m128i_to_vint32m1(a)), (imm & 0x7), 8);
 	return *((uint32_t *)&tmp) & 0xffff;
 }
 
 // Compare packed signed 16-bit integers in a and b, and store packed maximum values in dst.
-// TESTED
 static inline __m128i _mm_max_epi16(__m128i a, __m128i b){
 	vint32m1_t tmp = vreinterpret_v_i16m1_i32m1(vmax_vv_i16m1(vreinterpret_v_i32m1_i16m1(m128i_to_vint32m1(a)), vreinterpret_v_i32m1_i16m1(m128i_to_vint32m1(b)), 8));
 	return vint32m1_to_m128i(tmp);
 }
 
 // Compare packed unsigned 8-bit integers in a and b, and store packed maximum values in dst.
-// TESTED
 static inline __m128i _mm_max_epu8(__m128i a, __m128i b){
         vint32m1_t tmp = vreinterpret_v_u8m1_i32m1(vmaxu_vv_u8m1(vreinterpret_v_i32m1_u8m1(m128i_to_vint32m1(a)), vreinterpret_v_i32m1_u8m1(m128i_to_vint32m1(b)), 16));
         return vint32m1_to_m128i(tmp);
 }
 
 // Compare packed unsigned 8-bit integers in a and b, and store packed minimum values in dst.
-// TESTED
 static inline __m128i _mm_min_epu8(__m128i a, __m128i b){
         vint32m1_t tmp = vreinterpret_v_u8m1_i32m1(vminu_vv_u8m1(vreinterpret_v_i32m1_u8m1(m128i_to_vint32m1(a)), vreinterpret_v_i32m1_u8m1(m128i_to_vint32m1(b)), 16));
         return vint32m1_to_m128i(tmp);
 }
 
 // Create mask from the most significant bit of each 8-bit element in a, and store the result in dst.
-// TESTED
 static inline int _mm_movemask_epi8(__m128i _a){
 	//vsetvl_e8m8(16);
 
