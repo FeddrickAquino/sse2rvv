@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
+    - name: install dtc
+      run: sudo apt-get update -y && sudo apt-get install device-tree-compiler -y
     - name: setup
       run: export WORK_DIR=`pwd` && wget -O toochain.tar.gz https://cloudstor.aarnet.edu.au/plus/s/GY4iC2SCG81wgbl/download && tar xf toochain.tar.gz && export PATH=$PATH:$WORK_DIR/pk/riscv64-unknown-linux-gnu/bin:$WORK_DIR/spike/bin:$WORK_DIR/gcc/bin && printenv >> $GITHUB_ENV
     - name: test
