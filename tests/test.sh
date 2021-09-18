@@ -8,8 +8,8 @@ $CC -static -o test1 test1.c
 gcc -o test1_control test1_control.c
 
 #run the program
-$SPIKE --isa=rv64gcv `which pk` test1 > test1.out 2>&1
-./test1_control > test1_control.out 2>&1
+$SPIKE --isa=rv64gcv `which pk` test1 > test1.out
+./test1_control > test1_control.out
 
 #remove first line in test1.out
 sed -i '1d' test1.out
