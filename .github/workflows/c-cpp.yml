@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: setup
-      run: export WORK_DIR=`pwd` && wget -O toochain.tar.gz https://cloudstor.aarnet.edu.au/plus/s/GY4iC2SCG81wgbl && tar xf toochain.tar.gz && export PATH=$PATH:$WORK_DIR/pk/riscv64-unknown-linux-gnu/bin:$WORK_DIR/spike/bin:$WORK_DIR/gcc/bin
+      run: export WORK_DIR=`pwd` && wget -O toochain.tar.gz https://cloudstor.aarnet.edu.au/plus/s/GY4iC2SCG81wgbl/download && tar xf toochain.tar.gz && export PATH=$PATH:$WORK_DIR/pk/riscv64-unknown-linux-gnu/bin:$WORK_DIR/spike/bin:$WORK_DIR/gcc/bin
     - name: test
       run: cd tests && ./test_all.sh
     - name: zlib
