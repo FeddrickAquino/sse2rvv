@@ -9,9 +9,18 @@ on:
 jobs:
   build:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
+    - name: setup
+      run: export WORK_DIR=`pwd` && wget -O toochain.tar.gz https://cloudstor.aarnet.edu.au/plus/s/GY4iC2SCG81wgbl && tar xf toochain.tar.gz && export PATH=$PATH:$WORK_DIR/pk/riscv64-unknown-linux-gnu/bin:$WORK_DIR/spike/bin:$WORK_DIR/gcc/bin
     - name: test
       run: cd tests && ./test_all.sh
-     
+    - name: zlib
+      run: cd $WORK_DIR && mkdir zlib && cd zlib && wget https://zlib.net/zlib-1.2.11.tar.gz && tar xf zlib-1.2.11.tar.gz && cd zlib-1.2.11/ && CC=riscv64-unknown-linux-gnu-gcc CFLAGS="-march=rv64gcv -mabi=lp64d"  ./configure && make
+    - name: minimap2
+      run: cd $WORK_DIR && git clone https://github.com/FeddrickAquino/minimap2 --recursive && cd minimap2 && make riscv_v=1 && PATH=$PATH:$WORK_DIR/minimap2 && export PATH
+    - name: testdata
+      run: cd $WORK_DIR && mkdir test_data && cd test_data && wget -O chr22.fa.gz https://cloudstor.aarnet.edu.au/plus/s/gQtJuWiWEb4R6tq/download && gunzip chr22.fa.gz && wget -O reads.fastq.gz https://cloudstor.aarnet.edu.au/plus/s/m2LE895IhhnRLKF/download && gunzip reads.fastq.gz
+    - name: run
+      run:  cd $WORK_DIR/test_data &&  spike --isa=rv64gcv -p4 -m8096 `which pk` `which minimap2` -t 1 chr22.fa -d chr22.idx &&  head -n8 reads.fastq > reads_10.fastq && spike --isa=rv64gcv -p4 -m8096 `which pk` `which minimap2` -x map-ont -a -t 1 chr22.idx reads_10.fastq > reads_10.sam
