@@ -19,7 +19,7 @@ jobs:
     - name: test
       run: cd tests && ./test_all.sh
     - name: zlib
-      run: cd $WORK_DIR && mkdir zlib && cd zlib && wget https://zlib.net/zlib-1.2.11.tar.gz && tar xf zlib-1.2.11.tar.gz && cd zlib-1.2.11/ && CC=riscv64-unknown-linux-gnu-gcc CFLAGS="-march=rv64gcv -mabi=lp64d"  ./configure && make
+      run: cd $WORK_DIR && mkdir zlib && cd zlib && wget https://zlib.net/fossils/zlib-1.2.11.tar.gz && tar xf zlib-1.2.11.tar.gz && cd zlib-1.2.11/ && CC=riscv64-unknown-linux-gnu-gcc CFLAGS="-march=rv64gcv -mabi=lp64d"  ./configure && make
     - name: minimap2
       run: cd $WORK_DIR && git clone https://github.com/FeddrickAquino/minimap2 --recursive && cd minimap2 && make riscv_v=1 && export PATH=$PATH:$WORK_DIR/minimap2 && printenv >> $GITHUB_ENV
     - name: testdata
